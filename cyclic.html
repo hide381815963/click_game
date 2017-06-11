@@ -1,0 +1,131 @@
+<html>
+<head>
+<style>
+ body {
+    white-space: pre;
+    word-wrap: break-word;
+    font-size: 60px;
+    line-height: 1.1;
+    font-family: "Hiragino Kaku Gothic ProN","メイリオ", sans-serif;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+ }
+
+ body div{line-height: 0.5;}
+
+ .mark{    cursor: pointer;    width: 64px !important;}
+ .caption{font-size:16pt;}
+</style>
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+
+</head>
+<body>
+  <div class="container">
+  <div class="row caption">
+    <div class="col s5">
+      <span id="target-mark">x</span>を　ぜんぶ　おしてみよう。
+    </div>
+    <div class="col s3">
+      あと　<span id="total-count">0</span>　こ
+    </div>
+  </div>
+<div id="output">
+○♡○◇○♡○◇♡◇
+♡◇♡○◇♡○◇♡○
+◇♡○◇♡○○︎♡○◇
+♡◇♡○◇○♡○♡◇
+○◇♡○◇♡○◇♡○
+◇♡○◇♡○◇♡○◇
+◇○♡○◇♡○◇♡○
+◇♡○◇♡○◇♡○◇
+◇♡○◇♡○◇♡○♡
+○◇♡○◇♡○◇♡○
+</div>
+</div>
+<script>
+var records = ["○","♡","◇","♧"];
+var choice = records[Math.floor(Math.random() * 4)];
+var output = "";
+var line_ = ""
+var before_ = "          ";
+for(var i = 0; i < 10; i++){
+  var check_ = " ";
+  for(var j = 0; j < 10; j++){
+    var rand = records[ Math.floor( Math.random() * records.length ) ] ;
+    console.log(check_ + ":" + rand);
+    if (check_ == rand){
+      //rand = records[ Math.floor( Math.random() * records.length ) ] ;
+      //console.log(check_);
+      for(var r = 0 ; r < records.length; r++){
+        rand = records[r];
+        console.log("re:" + check_ + ":" + rand);
+        if (check_ != rand){
+          break;
+        }
+      }
+    }
+    if (before_[j] == rand){
+      for(var r = 0 ; r < records.length; r++){
+        var try_ = records[r];
+        if (before_[j] != try_){
+          if (check_ != try_){
+            rand = try_;
+            break;
+          }
+        }
+      }
+    }
+
+    check_ = rand
+    line_ += rand;
+  }
+  before_ = line_;
+  output += "<div class='row'>";
+  for(var c = 0; c<10;c++){
+    output += '<span class="mark col s1 center">' + line_[c] + "</span>";
+  }
+  output += "</div>\n";
+  line_ = "";
+}
+document.getElementById( "output" ).innerHTML = output ;
+
+document.getElementById( "target-mark" ).innerHTML = choice ;
+
+var click_targets = document.getElementsByClassName("mark");
+
+//var event = document.createEvent( "MouseEvents" );
+//event.initEvent("click", false, true);
+//clickMe.dispatchEvent(event);
+var total = 0;
+for(var i=0; i<click_targets.length; i++){
+  var clickMe = click_targets[i];
+  if (clickMe.innerText.indexOf(choice) > -1){
+    total += 1;
+    clickMe.onclick = function() {
+      if (this.style.color == ""){
+        this.style.color = rainbow();
+        total -= 1;
+      }else{
+        return;
+      }
+      document.getElementById( "total-count" ).innerHTML = total ;
+      if(total == 0){
+        alert("おっけー。ぜんぶ　いろが　ついたよ");
+      }
+    };
+  }
+}
+document.getElementById( "total-count" ).innerHTML = total ;
+
+
+
+function rainbow(){
+  var colors = ["#ED1A3D","#FFB74C","#FFD400","#008000","#0067C0","#234794","#A757A8"];
+  var rand = Math.floor( Math.random() * 7 ) ;
+  return colors[rand];
+}
+</script>
+</body>
+</html>
