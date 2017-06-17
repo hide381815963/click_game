@@ -23,6 +23,7 @@
 </head>
 <body>
   <div class="container">
+    <img src="image/japaricoin.svg" width="50%" height="50%">
   <div class="row caption">
     <div class="col s5">
       <span id="target-mark">x</span>を　ぜんぶ　おしてみよう。
@@ -45,7 +46,7 @@
 </div>
 </div>
 <script>
-var records = ["○","♡","◇","♧"];
+var records = ["b","y","p","g"];
 var choice = records[Math.floor(Math.random() * 4)];
 var output = "";
 var line_ = ""
@@ -84,14 +85,16 @@ for(var i = 0; i < 10; i++){
   before_ = line_;
   output += "<div class='row'>";
   for(var c = 0; c<10;c++){
-    output += '<span class="mark col s1 center">' + line_[c] + "</span>";
+    //<img src="image/japaricoin.svg" width="50%" height="50%">
+    //output += '<span class="mark col s1 center">' + line_[c] + "</span>";
+    output += '<img src="image/japariman-' + line_[c] + '.svg" width="12%" height="12%" class="mark col s1 center">';
   }
   output += "</div>\n";
   line_ = "";
 }
 document.getElementById( "output" ).innerHTML = output ;
 
-document.getElementById( "target-mark" ).innerHTML = choice ;
+document.getElementById( "target-mark" ).innerHTML = '<img src="image/japariman-' + choice + '.svg" width="12%" height="12%">';;
 
 var click_targets = document.getElementsByClassName("mark");
 
@@ -101,11 +104,13 @@ var click_targets = document.getElementsByClassName("mark");
 var total = 0;
 for(var i=0; i<click_targets.length; i++){
   var clickMe = click_targets[i];
-  if (clickMe.innerText.indexOf(choice) > -1){
+  if (clickMe.outerHTML.indexOf('japariman-'+choice) > -1){
     total += 1;
     clickMe.onclick = function() {
       if (this.style.color == ""){
-        this.style.color = rainbow();
+        //this.style.color = rainbow();
+        //console.log(this.outerHTML);
+        this.outerHTML = '<img src="image/japaricoin.svg" width="12%" height="12%" class="mark col s1 center">';
         total -= 1;
       }else{
         return;
